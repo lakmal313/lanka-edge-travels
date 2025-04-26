@@ -1,0 +1,13 @@
+<%# views/details.ejs %>
+<section class="py-16 px-6 bg-white">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <img src="<%= destination.imgPath %>" alt="" class="w-full h-64 object-cover rounded-lg shadow"/>
+    <h1 class="text-4xl font-bold"><%= destination.name %></h1>
+    <p class="text-indigo-600 font-semibold">$<%= destination.price.toFixed(2) %> USD</p>
+    <p class="text-gray-700"><%= destination.desc %></p>
+    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+      <a href="/" class="btn btn-outline">Back to Home</a>
+      <a href="/dest/<%= destination._id %>/book" class="btn btn-primary" data-icon="📅">Book Now</a>
+    </div>
+  </div>
+</section>

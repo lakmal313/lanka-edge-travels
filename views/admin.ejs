@@ -1,0 +1,136 @@
+<%# Admin Panel - Manage Destinations, Bookings, and Contacts %>
+
+<section class="py-16 px-6 bg-gradient-to-r from-green-400 to-teal-500">
+  <h2 class="text-4xl font-extrabold text-white text-center mb-12">Admin Panel</h2>
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+    <!-- Destinations Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h3 class="text-2xl font-semibold mb-6 text-indigo-600">Destinations</h3>
+
+      <!-- Add or Edit Destination Form -->
+      <div class="mb-8">
+        <h4 class="text-xl font-medium mb-4 text-gray-800">
+          <%= editItem ? 'Edit Destination' : 'Add New Destination' %>
+        </h4>
+        <form action="<%= editItem ? '/admin/dest/' + editItem._id + '?_method=PUT' : '/admin/dest' %>"
+              method="POST" enctype="multipart/form-data" class="space-y-5">
+          <input type="text" name="name" required placeholder="Destination Name"
+                 value="<%= editItem?.name || '' %>"
+                 class="w-full p-4 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition ease-in-out duration-300"/>
+          <input type="number" name="price" required step="0.01" placeholder="Price (USD)"
+                 value="<%= editItem?.price || '' %>"
+                 class="w-full p-4 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition ease-in-out duration-300"/>
+          <input type="file" name="image" <%= editItem ? '' : 'required' %> class="w-full"/>
+          <textarea name="desc" rows="4" required placeholder="Description"
+                    class="w-full p-4 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition ease-in-out duration-300"><%= editItem?.desc || '' %></textarea>
+          <button type="submit" class="btn btn-primary">
+            <%= editItem ? 'Update' : 'Add' %> Destination
+          </button>
+        </form>
+      </div>
+
+      <!-- List of Existing Destinations -->
+      <div>
+        <h4 class="text-xl font-medium mb-4 text-gray-800">Existing Destinations</h4>
+        <ul class="divide-y divide-gray-200">
+          <% destinations.forEach(d => { %>
+            <li class="py-4 flex justify-between items-center hover:bg-gray-100 transition px-4 rounded-lg">
+              <span class="font-medium text-gray-800"><%= d.name %></span>
+              <div class="flex space-x-3">
+                <a href="/admin?edit=<%= d._id %>" class="btn btn-outline">Edit</a>
+                <form action="/admin/dest/<%= d._id %>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bookings Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h3 class="text-2xl font-semibold mb-6 text-indigo-600">Bookings</h3>
+
+      <% if (bookings.length === 0) { %>
+        <p class="text-gray-600">No bookings yet.</p>
+      <% } else { %>
+        <div class="overflow-auto">
+          <table class="min-w-full table-auto divide-y divide-gray-200 text-sm">
+            <thead class="bg-indigo-100 text-gray-700">
+              <tr>
+                <th class="px-4 py-2 text-left">Tour</th>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Phone</th>
+                <th class="px-4 py-2 text-left">From</th>
+                <th class="px-4 py-2 text-left">To</th>
+                <th class="px-4 py-2 text-left">Booked At</th>
+                <th class="px-4 py-2 text-left">Status</th>
+                <th class="px-4 py-2 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% bookings.forEach(b => { %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-2"><%= b.destination.name %></td>
+                  <td class="px-4 py-2"><%= b.name %></td>
+                  <td class="px-4 py-2"><%= b.email %></td>
+                  <td class="px-4 py-2"><%= b.phone || '—' %></td>
+                  <td class="px-4 py-2"><%= new Date(b.dateFrom).toLocaleDateString() %></td>
+                  <td class="px-4 py-2"><%= new Date(b.dateTo).toLocaleDateString() %></td>
+                  <td class="px-4 py-2"><%= new Date(b.createdAt).toLocaleDateString() %></td>
+                  <td class="px-4 py-2"><%= b.status || 'Pending' %></td>
+                  <td class="px-4 py-2 flex space-x-2">
+                    <form action="/admin/booking/<%= b._id %>/confirm" method="POST">
+                      <button type="submit" class="btn btn-success">Confirm</button>
+                    </form>
+                    <form action="/admin/booking/<%= b._id %>" method="POST">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Contact Requests Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h3 class="text-2xl font-semibold mb-6 text-indigo-600">Contact Requests</h3>
+
+      <% if (contacts.length === 0) { %>
+        <p class="text-gray-600">No contact requests yet.</p>
+      <% } else { %>
+        <div class="overflow-auto">
+          <table class="min-w-full table-auto divide-y divide-gray-200 text-sm">
+            <thead class="bg-green-100 text-gray-800">
+              <tr>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Phone</th>
+                <th class="px-4 py-2 text-left">Message</th>
+                <th class="px-4 py-2 text-left">Received At</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% contacts.forEach(c => { %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-2"><%= c.name %></td>
+                  <td class="px-4 py-2"><%= c.email %></td>
+                  <td class="px-4 py-2"><%= c.phone || '—' %></td>
+                  <td class="px-4 py-2"><%= c.message %></td>
+                  <td class="px-4 py-2"><%= new Date(c.createdAt).toLocaleDateString() %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>

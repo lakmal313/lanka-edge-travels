@@ -1,0 +1,19 @@
+<%# views/book.ejs %>
+<section class="py-16 px-6 bg-white">
+  <div class="max-w-lg mx-auto bg-gray-100 p-8 rounded-lg shadow space-y-6">
+    <h1 class="text-3xl font-bold">Book: <%= destination.name %></h1>
+    <form action="/dest/<%= destination._id %>/book" method="POST" class="space-y-4">
+      <input name="name"    type="text"   placeholder="Your Name" required class="w-full p-3 border rounded-lg focus:ring-indigo-500"/>
+      <input name="email"   type="email"  placeholder="Email"     required class="w-full p-3 border rounded-lg focus:ring-indigo-500"/>
+      <input name="phone"   type="tel"    placeholder="Phone (optional)" class="w-full p-3 border rounded-lg"/>
+      <label class="block"><span>Date From</span>
+        <input name="dateFrom" type="date" required class="w-full p-3 border rounded-lg"/>
+      </label>
+      <label class="block"><span>Date To</span>
+        <input name="dateTo"   type="date" required class="w-full p-3 border rounded-lg"/>
+      </label>
+      <button type="submit" class="btn btn-primary" data-icon="✓">Confirm Booking</button>
+    </form>
+    <p class="text-sm text-gray-600">We’ll contact you soon with next steps.</p>
+  </div>
+</section>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title><%= title %> | Lanka Edge Travels</title>
+
+  <!-- Tailwind + Custom -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+  <!-- Sticky Navigation -->
+  <nav id="main-nav" class="sticky top-0 bg-white shadow px-8 py-4 z-40">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="/" class="font-extrabold text-3xl text-indigo-600">Lanka Edge Travels</a>
+      <div class="hidden md:flex space-x-8">
+        <a href="#home"    class="nav-link">Home</a>
+        <a href="#dest"    class="nav-link">Destinations</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="/admin"   class="nav-link">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="pt-20">
+    <%- body %>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button
+    id="back-to-top"
+    class="hidden fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:scale-110 transition-transform z-50"
+    aria-label="Back to Top"
+  >
+    ↑
+  </button>
+
+  <!-- Scripts -->
+  <script src="/js/header.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize AOS (Animate On Scroll)
+      AOS.init({ duration: 800, once: true });
+
+      // Hero Slider
+      new Swiper('.swiper', {
+        loop: true,
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        autoplay: { delay: 5000 },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+      });
+
+      // Testimonials Slider
+      new Swiper('.testimonials-swiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        autoplay: { delay: 6000 },
+        pagination: { el: '.testimonials-swiper .swiper-pagination', clickable: true },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        }
+      });
+
+      // Back to Top Button Logic
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.remove('hidden');
+        } else {
+          backToTop.classList.add('hidden');
+        }
+      });
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

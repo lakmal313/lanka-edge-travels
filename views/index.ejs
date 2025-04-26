@@ -1,0 +1,67 @@
+<%
+// Hero slider and testimonials data are now passed from server.js
+const sliderImages = [
+  '/images/hero/slide1.jpg',
+  '/images/hero/slide2.jpg',
+  '/images/hero/slide3.jpg',
+  '/images/hero/slide4.jpg'
+];
+%>
+
+<!-- Hero Slider -->
+<section id="home" class="relative h-screen overflow-hidden" data-aos="fade-in">
+  <div class="swiper h-full">
+    <div class="swiper-wrapper">
+      <% sliderImages.forEach(src => { %>
+        <div class="swiper-slide relative">
+          <img src="<%= src %>" alt="" class="object-cover w-full h-full"/>
+          <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 space-y-4">
+            <h1 class="text-4xl md:text-6xl font-extrabold drop-shadow-lg">🌟 Lanka Edge Travels</h1>
+            <p class="text-lg md:text-2xl drop-shadow">📍 Navigate Sri Lanka Like Never Before!</p>
+            <a href="#dest" class="btn btn-primary">Explore Destinations</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev text-white"></div>
+    <div class="swiper-button-next text-white"></div>
+  </div>
+</section>
+
+<!-- Destinations -->
+<section id="dest" class="py-16 px-6 bg-white" data-aos="fade-up">
+  <h2 class="text-3xl font-bold text-center mb-8">Top Destinations</h2>
+  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <% destinations.forEach((d, i) => { %>
+      <a href="/dest/<%= d._id %>" class="block bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
+        <img src="<%= d.imgPath %>" alt="<%= d.name %>" class="h-40 w-full object-cover rounded-t-lg"/>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg"><%= d.name %></h3>
+          <p class="text-indigo-600 font-medium mb-2">$<%= d.price.toFixed(2) %> USD</p>
+          <p class="text-gray-600 text-sm"><%= d.desc %></p>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-16 px-6 bg-gray-100" data-aos="fade-up">
+  <h2 class="text-3xl font-bold text-center mb-8">What Our Travelers Say</h2>
+  <div class="swiper testimonials-swiper" data-aos="zoom-in">
+    <div class="swiper-wrapper">
+      <% testimonials.forEach(t => { %>
+        <div class="swiper-slide p-4">
+          <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+            <img src="<%= t.img %>" class="w-16 h-16 rounded-full mb-4"/>
+            <p class="italic text-gray-700 mb-4">“<%= t.text %>”</p>
+            <h3 class="font-semibold"><%= t.name %></h3>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
