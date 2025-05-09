@@ -1,3 +1,57 @@
+/* public/css/input.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom button & nav-link styles */
+@layer components {
+  .btn {
+    @apply transition-transform duration-300 font-semibold uppercase px-6 py-3 rounded-full cursor-pointer;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-secondary text-white shadow-lg;
+  }
+  .btn-outline {
+    @apply border-2 border-indigo-600 text-indigo-600 bg-transparent;
+  }
+  .btn-danger {
+    @apply bg-red-500 text-white;
+  }
+  .btn-success {
+    @apply bg-green-500 text-white;
+  }
+
+  /* Hover states */
+  .btn:hover {
+    @apply scale-105;
+  }
+  .btn-outline:hover {
+    @apply bg-indigo-100;
+  }
+  .btn-danger:hover {
+    @apply bg-red-600;
+  }
+  .btn-success:hover {
+    @apply bg-green-600;
+  }
+
+  /* ✨ NEW — make nav links larger and keep hover effect ✨ */
+  .nav-link {
+    @apply text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors;
+  }
+
+  /* ✨ NEW — Contact page background, overlay & content styling ✨ */
+  .contact-page {
+    @apply min-h-screen flex items-center justify-center bg-cover bg-center relative;
+    /* make sure you have placed contact-bg.jpg in public/images/ */
+    background-image: url('/images/contact-bg.jpg');
+  }
+  .contact-page::before {
+    content: "";
+    @apply absolute inset-0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .contact-content {
+    @apply bg-white bg-opacity-90 p-8 rounded-lg shadow-lg max-w-2xl w-full relative z-10;
+  }
+}

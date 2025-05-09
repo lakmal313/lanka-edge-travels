@@ -1,0 +1,66 @@
+<%/* views/about.ejs */%>
+
+<!-- Hero Banner -->
+<section
+  class="relative h-96 bg-cover bg-center"
+  style="background-image: url('<%= hero %>')"
+>
+  <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+  <div class="relative max-w-4xl mx-auto h-full flex flex-col justify-center px-6 text-white">
+    <h1 class="text-4xl lg:text-5xl font-extrabold">About Lanka Edge Travels</h1>
+    <p class="mt-4 text-xl">
+      Your gateway to unforgettable Sri Lanka adventures.
+    </p>
+  </div>
+</section>
+
+<!-- Company Story -->
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-6 space-y-8">
+    <h2 class="text-3xl font-bold text-gray-800">Our Story</h2>
+    <p class="text-gray-700 leading-relaxed">
+      Lanka Edge Travels was founded in 2015 with a single mission: to share the beauty, culture, and rich heritage of Sri Lanka with travelers from around the world.
+      From the misty highlands to the sun-kissed beaches, we craft personalized itineraries that let you experience the island’s very best.
+    </p>
+
+    <h2 class="text-3xl font-bold text-gray-800">Our Mission</h2>
+    <p class="text-gray-700 leading-relaxed">
+      We believe in sustainable tourism that benefits local communities. Our mission is to create authentic, responsible travel experiences
+      that leave a positive impact—both for you and for the people you meet along the way.
+    </p>
+
+    <h2 class="text-3xl font-bold text-gray-800">Why Choose Us?</h2>
+    <ul class="list-disc list-inside text-gray-700 space-y-2">
+      <li><strong>Local Expertise:</strong> Our team is born and raised here, with deep knowledge of every corner of the island.</li>
+      <li><strong>Custom Itineraries:</strong> No cookie-cutter tours—every trip is tailored to your interests and travel style.</li>
+      <li><strong>24/7 Support:</strong> We’re here for you around the clock, so you can travel with confidence.</li>
+      <li><strong>Sustainable Practices:</strong> We partner with eco-friendly operators to minimize our footprint.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Meet the Team -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto text-center mb-10 px-6">
+    <h2 class="text-3xl font-bold text-gray-800">Meet the Team</h2>
+    <p class="mt-2 text-gray-600">Local guides who turn your journey into memories.</p>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <!-- Example Profile Card -->
+    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+      <img src="/images/team/alice.jpg" alt="Alice" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
+      <h3 class="font-semibold text-xl">Alice Perera</h3>
+      <p class="text-gray-600 text-sm">Founder & Lead Guide</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+      <img src="/images/team/bimal.jpg" alt="Bimal" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
+      <h3 class="font-semibold text-xl">Bimal Silva</h3>
+      <p class="text-gray-600 text-sm">Sri Lanka Specialist</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+      <img src="/images/team/chitra.jpg" alt="Chitra" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
+      <h3 class="font-semibold text-xl">Chitra Fernando</h3>
+      <p class="text-gray-600 text-sm">Customer Relations</p>
+    </div>
+  </div>
+</section>

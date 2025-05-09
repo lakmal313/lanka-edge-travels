@@ -1,13 +1,90 @@
-<%# views/details.ejs %>
-<section class="py-16 px-6 bg-white">
-  <div class="max-w-4xl mx-auto space-y-6">
-    <img src="<%= destination.imgPath %>" alt="" class="w-full h-64 object-cover rounded-lg shadow"/>
-    <h1 class="text-4xl font-bold"><%= destination.name %></h1>
-    <p class="text-indigo-600 font-semibold">$<%= destination.price.toFixed(2) %> USD</p>
-    <p class="text-gray-700"><%= destination.desc %></p>
-    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-      <a href="/" class="btn btn-outline">Back to Home</a>
-      <a href="/dest/<%= destination._id %>/book" class="btn btn-primary" data-icon="📅">Book Now</a>
+<%/* views/details.ejs */%>
+
+<!-- Hero Banner with overlay -->
+<section
+  class="relative h-96 bg-cover bg-center"
+  style="background-image: url('<%= destination.imgPath %>')"
+>
+  <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+  <div class="relative max-w-4xl mx-auto h-full flex flex-col justify-center px-6 text-white">
+    <h1 class="text-4xl lg:text-5xl font-extrabold"><%= destination.name %></h1>
+    <p class="mt-4 text-2xl font-semibold">$<%= destination.price.toFixed(2) %> USD</p>
+    <div class="mt-6 space-x-4">
+      <a
+        href="/"
+        class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-medium transition"
+      >Back to Tours</a>
+      <a
+        href="/contact?dest=<%= destination._id %>"
+        class="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 rounded text-white font-medium transition"
+      >Request a Quote</a>
     </div>
   </div>
 </section>
+
+<main class="space-y-16">
+
+  <!-- Overview Section -->
+  <section class="bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-4">Overview</h2>
+      <div class="bg-white shadow rounded-lg p-6 space-y-4">
+        <% 
+          // Split on blank line to form paragraphs:
+          destination.desc.split(/\r?\n\s*\r?\n/).forEach(paragraph => { 
+        %>
+          <p class="text-gray-700 leading-relaxed"><%= paragraph %></p>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Itinerary Section -->
+  <section class="py-12">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6">Itinerary Overview</h2>
+      <% if (destination.itinerary && destination.itinerary.length) { %>
+        <div x-data="{ open: null }" class="space-y-4">
+          <% destination.itinerary.forEach((day, idx) => { %>
+            <div class="border rounded-lg overflow-hidden">
+              <button
+                @click="open === <%= idx %> ? open = null : open = <%= idx %>"
+                class="w-full flex justify-between items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 transition"
+              >
+                <span class="font-medium">
+                  Day <%= day.day %> – <%= day.title %>
+                </span>
+                <svg
+                  :class="{ 'rotate-180': open === <%= idx %> }"
+                  class="h-5 w-5 text-gray-600 transition-transform"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div x-show="open === <%= idx %>" x-collapse class="px-6 py-4 bg-white">
+                <% 
+                  // Preserve line breaks inside details
+                  day.details.split(/\r?\n/).forEach(line => { 
+                %>
+                  <p class="text-gray-700 leading-relaxed mb-3"><%= line %></p>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="text-gray-600">Itinerary details are coming soon—stay tuned!</p>
+      <% } %>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Alpine collapse plugin (if you're not already including it)
+  document.addEventListener('alpine:init', () => {
+    Alpine.plugin(window.ArrowCollapse);
+  });
+</script>

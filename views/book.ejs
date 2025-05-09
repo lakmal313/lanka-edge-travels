@@ -1,19 +1,206 @@
-<%# views/book.ejs %>
-<section class="py-16 px-6 bg-white">
-  <div class="max-w-lg mx-auto bg-gray-100 p-8 rounded-lg shadow space-y-6">
-    <h1 class="text-3xl font-bold">Book: <%= destination.name %></h1>
-    <form action="/dest/<%= destination._id %>/book" method="POST" class="space-y-4">
-      <input name="name"    type="text"   placeholder="Your Name" required class="w-full p-3 border rounded-lg focus:ring-indigo-500"/>
-      <input name="email"   type="email"  placeholder="Email"     required class="w-full p-3 border rounded-lg focus:ring-indigo-500"/>
-      <input name="phone"   type="tel"    placeholder="Phone (optional)" class="w-full p-3 border rounded-lg"/>
-      <label class="block"><span>Date From</span>
-        <input name="dateFrom" type="date" required class="w-full p-3 border rounded-lg"/>
-      </label>
-      <label class="block"><span>Date To</span>
-        <input name="dateTo"   type="date" required class="w-full p-3 border rounded-lg"/>
-      </label>
-      <button type="submit" class="btn btn-primary" data-icon="✓">Confirm Booking</button>
+<%/* views/book.ejs */%>
+<% layout('layouts/main') %>
+
+<!-- Hero Section -->
+<section
+  id="book-hero"
+  class="relative py-16 bg-cover bg-center"
+  style="background-image: url('<%= hero %>');"
+  data-aos="fade-up"
+  data-aos-duration="800"
+>
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+  <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold">
+      Request a Quote for <%= destination.name %>
+    </h1>
+    <p class="mt-4 text-lg sm:text-xl">
+      Tell us what you need and we’ll craft your perfect Sri Lanka itinerary—completely free and tailored to you!
+    </p>
+  </div>
+</section>
+
+<!-- Request Quote Form -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-md bg-white p-8 sm:p-10 rounded-lg shadow-lg">
+    <form action="/dest/<%= destination._id %>/book" method="POST" class="space-y-6">
+      <% if (errors && errors.length) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded">
+          <ul class="list-disc list-inside">
+            <% errors.forEach(err => { %>
+              <li><%= err.msg %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <div class="space-y-4">
+        <!-- Full Name -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            placeholder="John Doe"
+            value="<%= data.name || '' %>"
+            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <!-- Email Address -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="you@example.com"
+            value="<%= data.email || '' %>"
+            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <!-- Phone Number -->
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="+94 7XX XXX XXX"
+            value="<%= data.phone || '' %>"
+            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <!-- Adults & Children -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label for="adults" class="block text-sm font-medium text-gray-700">Adults</label>
+            <input
+              id="adults"
+              name="adults"
+              type="number"
+              min="1"
+              required
+              value="<%= data.adults != null ? data.adults : 1 %>"
+              class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+          <div>
+            <label for="children" class="block text-sm font-medium text-gray-700">Children</label>
+            <input
+              id="children"
+              name="children"
+              type="number"
+              min="0"
+              required
+              value="<%= data.children != null ? data.children : 0 %>"
+              class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+
+        <!-- Travel Style -->
+        <fieldset>
+          <legend class="block text-sm font-medium text-gray-700 mb-2">Travel Style</legend>
+          <div class="flex space-x-4">
+            <% ['Adventure','Relaxation','Cultural'].forEach(style => { %>
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="travelStyle"
+                  value="<%= style %>"
+                  required
+                  <%= data.travelStyle === style ? 'checked' : '' %>
+                  class="form-radio text-indigo-600"
+                />
+                <span class="ml-2"><%= style %></span>
+              </label>
+            <% }) %>
+          </div>
+        </fieldset>
+
+        <!-- Travel Dates -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Travel Dates</label>
+          <div class="mt-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              name="dateFrom"
+              type="date"
+              required
+              value="<%= data.dateFrom || '' %>"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <input
+              name="dateTo"
+              type="date"
+              required
+              value="<%= data.dateTo || '' %>"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+
+        <!-- Estimated Budget -->
+        <div>
+          <label for="budget" class="block text-sm font-medium text-gray-700">Estimated Budget (USD)</label>
+          <input
+            id="budget"
+            name="budget"
+            type="text"
+            placeholder="e.g. 1500"
+            value="<%= data.budget || '' %>"
+            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <!-- Your Interests -->
+        <fieldset>
+          <legend class="block text-sm font-medium text-gray-700 mb-2">Your Interests</legend>
+          <%
+            const selected = Array.isArray(data.interests)
+              ? data.interests
+              : data.interests
+                ? [data.interests]
+                : [];
+          %>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <% ['Culture','Wildlife','Beaches','Adventure','Wellness','Family'].forEach(i => { %>
+              <label class="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  name="interests"
+                  value="<%= i %>"
+                  class="form-checkbox text-indigo-600"
+                  <%= selected.includes(i) ? 'checked' : '' %>
+                />
+                <span class="ml-2"><%= i %></span>
+              </label>
+            <% }) %>
+          </div>
+        </fieldset>
+
+        <!-- Additional Notes -->
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700">Additional Notes</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="Any special requests or preferences?"
+            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          ><%= data.message || '' %></textarea>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        Request Quote
+      </button>
     </form>
-    <p class="text-sm text-gray-600">We’ll contact you soon with next steps.</p>
   </div>
 </section>

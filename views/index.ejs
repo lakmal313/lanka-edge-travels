@@ -1,67 +1,175 @@
-<%
-// Hero slider images (now passed from server.js)
-const sliderImages = [
-  '/images/hero/slide1.jpg',
-  '/images/hero/slide2.jpg',
-  '/images/hero/slide3.jpg',
-  '/images/hero/slide4.jpg'
-];
-%>
+<%/* views/index.ejs */%>
 
-<!-- Hero Slider -->
-<section id="home" class="relative h-screen overflow-hidden" data-aos="fade-in">
-  <div class="swiper h-full">
-    <div class="swiper-wrapper">
-      <% sliderImages.forEach(src => { %>
-        <div class="swiper-slide relative">
-          <img src="<%= src %>" alt="" class="object-cover w-full h-full"/>
-          <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 space-y-4">
-            <h1 class="text-4xl md:text-6xl font-extrabold drop-shadow-lg">🌟 Lanka Edge Travels</h1>
-            <p class="text-lg md:text-2xl drop-shadow">📍 Navigate Sri Lanka Like Never Before!</p>
-            <a href="#dest" class="btn btn-primary">Explore Destinations</a>
+<!-- Parallax Hero Section -->
+<section
+  id="home"
+  class="relative h-screen bg-cover bg-center"
+  style="background-image:url('<%= hero %>'); background-attachment:fixed"
+  data-aos="fade-up"
+  data-aos-duration="800"
+>
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-teal-500 to-green-400 opacity-75"></div>
+
+  <!-- Hero Content -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 text-white">
+    <h1 data-aos="fade-down" class="font-heading text-4xl sm:text-5xl md:text-6xl drop-shadow-lg">
+      Discover Tropical Sri Lanka
+    </h1>
+    <p data-aos="fade-up" data-aos-delay="200" class="mt-4 font-body text-lg sm:text-xl md:text-2xl max-w-2xl drop-shadow-md">
+      Embark on unforgettable journeys across pristine beaches, lush jungles, and ancient ruins.
+    </p>
+    <div data-aos="zoom-in" data-aos-delay="400" class="mt-8 flex gap-4">
+      <a href="#tours" class="btn-ripple px-6 py-3 bg-coral text-white rounded-full font-semibold shadow-lg transition">
+        View Tours
+      </a>
+      <a href="/contact" class="btn-ripple px-6 py-3 border-2 border-white text-white rounded-full font-semibold shadow-lg transition">
+        Contact Us
+      </a>
+    </div>
+  </div>
+
+  <!-- Decorative Leaves -->
+  <img src="/images/decor/leaf1.png" class="absolute top-8 left-8 w-24 animate-bounce opacity-80" alt="Leaf decoration">
+  <img src="/images/decor/leaf2.png" class="absolute bottom-8 right-8 w-32 animate-pulse opacity-80" alt="Leaf decoration">
+</section>
+
+<!-- Why Travel With Us (Tropical Edition) -->
+<section id="features" class="py-20 bg-teal-50">
+  <div class="container mx-auto text-center px-4 sm:px-6 lg:px-8">
+    <!-- Heading -->
+    <h2 data-aos="fade-down"
+        class="font-heading text-5xl text-ocean mb-4">
+      🌴 Why Travel With Us
+    </h2>
+    <p data-aos="fade-up" data-aos-delay="200"
+       class="font-body text-gray-800 text-lg sm:text-xl max-w-2xl mx-auto mb-12">
+      From custom itineraries to round-the-clock support, here’s how Lanka Edge Travels brings tropical magic to your Sri Lankan adventure.
+    </p>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Custom Tours -->
+      <div data-aos="zoom-in" data-aos-delay="100"
+           class="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-2 transition">
+        <div class="flex items-center justify-center mb-4">
+          <div class="bg-coral p-4 rounded-full text-white text-3xl">
+            🏖️
           </div>
         </div>
-      <% }) %>
+        <h3 class="text-2xl font-semibold mb-2 text-coral">Custom Tours</h3>
+        <p class="font-body text-gray-700">
+          Tailor-made itineraries crafted by experts to your tastes—beach days, jungle treks, temple visits, all your way.
+        </p>
+      </div>
+
+      <!-- Local Guides -->
+      <div data-aos="zoom-in" data-aos-delay="200"
+           class="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-2 transition">
+        <div class="flex items-center justify-center mb-4">
+          <div class="bg-sea p-4 rounded-full text-white text-3xl">
+            🧭
+          </div>
+        </div>
+        <h3 class="text-2xl font-semibold mb-2 text-sea">Local Guides</h3>
+        <p class="font-body text-gray-700">
+          Wander with friendly locals who unveil hidden gems off the usual tourist trail.
+        </p>
+      </div>
+
+      <!-- 24/7 Support -->
+      <div data-aos="zoom-in" data-aos-delay="300"
+           class="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-2 transition">
+        <div class="flex items-center justify-center mb-4">
+          <div class="bg-grass p-4 rounded-full text-white text-3xl">
+            📞
+          </div>
+        </div>
+        <h3 class="text-2xl font-semibold mb-2 text-grass">24/7 Support</h3>
+        <p class="font-body text-gray-700">
+          We’ve got your back around the clock—wherever you roam, help is just a call or message away.
+        </p>
+      </div>
     </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev text-white"></div>
-    <div class="swiper-button-next text-white"></div>
   </div>
 </section>
 
-<!-- Destinations -->
-<section id="dest" class="py-16 px-6 bg-white" data-aos="fade-up">
-  <h2 class="text-3xl font-bold text-center mb-8">Top Destinations</h2>
-  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-    <% destinations.forEach((d, i) => { %>
-      <a href="/dest/<%= d._id %>" class="block bg-white rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
-        <img src="<%= d.imgPath %>" alt="<%= d.name %>" class="h-40 w-full object-cover rounded-t-lg"/>
-        <div class="p-4">
-          <h3 class="font-semibold text-lg"><%= d.name %></h3>
-          <p class="text-indigo-600 font-medium mb-2">$<%= d.price.toFixed(2) %> USD</p>
-          <p class="text-gray-600 text-sm"><%= d.desc %></p>
+<!-- Tours Filter + Grid -->
+<section id="tours" class="py-16 bg-white px-6">
+  <div class="max-w-7xl mx-auto mb-8 text-center">
+    <h2 class="text-4xl font-bold mb-4">Our Tours</h2>
+    <input
+      type="text"
+      placeholder="Search tours..."
+      class="w-full max-w-md mx-auto mb-8 p-3 border rounded-md"
+      x-data
+      @input.debounce.300="$dispatch('filter-event', $event.target.value)"
+    />
+  </div>
+  <div
+    x-data="{
+      all: <%= JSON.stringify(destinations) %>,
+      filtered: <%= JSON.stringify(destinations) %>
+    }"
+    @filter-event.window="filtered = all.filter(d => d.name.toLowerCase().includes($event.detail.toLowerCase()))"
+    class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+  >
+    <template x-for="(d,i) in filtered" :key="d._id">
+      <div data-aos="fade-up" :data-aos-delay="i*100" class="relative group overflow-hidden rounded-lg shadow-lg">
+        <div
+          class="h-48 sm:h-56 md:h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+          :style="`background-image: url(${d.imgPath})`"
+        ></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                    flex flex-col justify-center items-center text-center p-6">
+          <h3 class="text-xl font-semibold text-white mb-2 font-body" x-text="d.name"></h3>
+          <p class="text-sm text-gray-200 mb-4 font-body" x-text="d.desc.length>80?d.desc.substring(0,80)+'…':d.desc"></p>
+          <p class="text-lg font-bold text-white mb-4 font-body">$<span x-text="d.price"></span></p>
+          <a :href="`/dest/${d._id}`" class="inline-block px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition font-body">
+            View Tour
+          </a>
         </div>
-      </a>
-    <% }) %>
+      </div>
+    </template>
   </div>
 </section>
+
+<!-- Divider -->
+<div class="max-w-7xl mx-auto px-6">
+  <div class="border-t border-gray-200 my-8"></div>
+</div>
 
 <!-- Testimonials -->
-<section class="py-16 px-6 bg-gray-100" data-aos="fade-up">
-  <h2 class="text-3xl font-bold text-center mb-8">What Our Travelers Say</h2>
-  <div class="swiper testimonials-swiper" data-aos="zoom-in">
-    <div class="swiper-wrapper">
-      <% testimonials.forEach(t => { %>
-        <div class="swiper-slide p-4">
-          <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
-            <img src="<%= t.img %>" class="w-16 h-16 rounded-full mb-4"/>
-            <p class="italic text-gray-700 mb-4">“<%= t.text %>”</p>
-            <h3 class="font-semibold"><%= t.name %></h3>
-          </div>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto text-center mb-12 px-4">
+    <h2 class="text-3xl font-bold">What Our Guests Say</h2>
+  </div>
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-4">
+    <% testimonials.forEach((t,i) => { %>
+      <div data-aos="zoom-in" data-aos-delay="<%= i*100 %>" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <% if (t.img) { %>
+          <img src="<%= t.img %>" class="mx-auto h-24 w-24 rounded-full object-cover mb-4" alt="<%= t.name %>">
+        <% } %>
+        <h3 class="text-lg font-semibold mb-2 font-body"><%= t.name %></h3>
+        <div class="flex justify-center mb-2 space-x-1">
+          <% for (let j=0; j<5; j++) { %>
+            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.292 3.978a1 1 0 00.95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.388 2.462a1 1 0 00-.364 1.118l1.292 3.978c.3.921-.755 1.688-1.54 1.118l-3.388-2.462a1 1 0 00-1.176 0l-3.388 2.462c-.784.57-1.838-.197-1.539-1.118l1.291-3.978a1 1 0 00-.364-1.118L2.34 9.405c-.783-.57-.38-1.81.589-1.81h4.178a1 1 0 00.95-.69l1.292-3.978z"/>
+            </svg>
+          <% } %>
         </div>
-      <% }) %>
-    </div>
-    <div class="swiper-pagination"></div>
+        <div x-data="{ open: false }">
+          <p class="text-gray-600 text-sm mb-2 font-body">
+            <span x-show="!open"><%= t.text.length > 100 ? t.text.substring(0,100) + '…' : t.text %></span>
+            <span x-show="open"><%= t.text %></span>
+          </p>
+          <% if (t.text.length > 100) { %>
+            <button @click="open = !open" class="text-indigo-600 text-sm font-medium focus:outline-none font-body">
+              <span x-text="open ? 'Read Less' : 'Read More'"></span>
+            </button>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
   </div>
 </section>

@@ -1,8 +1,10 @@
 // postcss.config.js
 module.exports = {
-    plugins: [
-      require('tailwindcss'),
-      require('autoprefixer'),
-    ]
-  }
-  
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+    require('cssnano')({
+      preset: 'default'
+    })
+  ]
+};

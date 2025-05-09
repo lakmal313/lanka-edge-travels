@@ -1,15 +1,40 @@
-// models/Booking.js
-const mongoose = require('mongoose');
+<% layout('layouts/main') %>
 
-const BookingSchema = new mongoose.Schema({
-  destination: { type: mongoose.Schema.Types.ObjectId, ref: 'Destination', required: true },
-  name:        { type: String, required: true },
-  email:       { type: String, required: true },
-  phone:       String,
-  dateFrom:    { type: Date, required: true },
-  dateTo:      { type: Date, required: true },
-  createdAt:   { type: Date, default: Date.now },
-  status:      { type: String, default: 'Pending' }
-});
-
-module.exports = mongoose.model('Booking', BookingSchema);
+<section class="py-16 px-6 bg-gray-50">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6"><%= title %></h1>
+    <% if (bookings.length) { %>
+      <table class="min-w-full bg-white shadow rounded overflow-hidden">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">Destination</th>
+            <th class="px-4 py-2 text-left">Name</th>
+            <th class="px-4 py-2 text-left">Email</th>
+            <th class="px-4 py-2 text-left">Dates</th>
+            <th class="px-4 py-2 text-left">Travellers</th>
+            <th class="px-4 py-2 text-left">Style</th>
+            <th class="px-4 py-2 text-left">Budget</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach(b => { %>
+            <tr class="border-t">
+              <td class="px-4 py-2"><%= b.destinationId.name %></td>
+              <td class="px-4 py-2"><%= b.name %></td>
+              <td class="px-4 py-2"><%= b.email %></td>
+              <td class="px-4 py-2">
+                <%= new Date(b.dateFrom).toLocaleDateString() %> –
+                <%= new Date(b.dateTo).toLocaleDateString() %>
+              </td>
+              <td class="px-4 py-2"><%= b.adults %> adults, <%= b.children %> children</td>
+              <td class="px-4 py-2"><%= b.travelStyle %></td>
+              <td class="px-4 py-2"><%= b.budget ? '$' + b.budget : '–' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No bookings yet.</p>
+    <% } %>
+  </div>
+</section>

@@ -5,86 +5,142 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title><%= title %> | Lanka Edge Travels</title>
 
-  <!-- Tailwind + Custom -->
-  <link rel="stylesheet" href="/css/styles.css">
-  <!-- AOS CSS -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Your existing CSS -->
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+
+  <!-- Alpine.js -->
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <!-- Inline font + ripple styles -->
+  <style>
+    body { font-family: 'Montserrat', sans-serif; }
+    .font-heading { font-family: 'Pacifico', cursive; }
+    .btn-ripple { position: relative; overflow: hidden; }
+    .btn-ripple::after {
+      content: '';
+      position: absolute; width:100%; height:100%; top:0; left:0;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      opacity: 0;
+      transition: transform .5s, opacity .8s;
+      border-radius: inherit;
+    }
+    .btn-ripple:active::after {
+      transform: scale(2);
+      opacity: 1;
+      transition: 0s;
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
 
-  <!-- Sticky Navigation -->
-  <nav id="main-nav" class="sticky top-0 bg-white shadow px-8 py-4 z-40">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <a href="/" class="font-extrabold text-3xl text-indigo-600">Lanka Edge Travels</a>
+  <!-- Flash Messages -->
+  <% if (success && success.length) { %>
+    <div class="fixed top-4 right-4 bg-green-600 text-white px-4 py-3 rounded shadow-lg z-50">
+      <%= success[0] %>
+    </div>
+  <% } %>
+  <% if (error && error.length) { %>
+    <div class="fixed top-4 right-4 bg-red-600 text-white px-4 py-3 rounded shadow-lg z-50">
+      <%= error[0] %>
+    </div>
+  <% } %>
+
+  <!-- Sticky Shrinking Header -->
+  <nav
+    x-data="{ scrolled: false }"
+    x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+    :class="scrolled ? 'py-2 bg-blue-600 shadow-md' : 'py-4 bg-blue-600'"
+    class="fixed inset-x-0 top-0 z-50 transition-all duration-300 font-heading text-white"
+  >
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6">
+      <a href="/" class="text-2xl sm:text-3xl">Lanka Edge Travels</a>
       <div class="hidden md:flex space-x-8">
-        <a href="#home"    class="nav-link">Home</a>
-        <a href="#dest"    class="nav-link">Destinations</a>
-        <a href="#contact" class="nav-link">Contact</a>
-        <a href="/admin"   class="nav-link">Admin</a>
+        <a href="/"        class="hover:text-teal-300 transition">Home</a>
+        <a href="/#tours"  class="hover:text-teal-300 transition">Tours</a>
+        <a href="/contact" class="hover:text-teal-300 transition">Contact</a>
+        <a href="/about"   class="hover:text-teal-300 transition">About Us</a>
+        <% if (isAdmin) { %>
+          <a href="/admin"  class="hover:text-teal-300 transition">Admin</a>
+          <a href="/logout" class="hover:text-teal-300 transition">Logout</a>
+        <% } else { %>
+          <a href="/login"  class="hover:text-teal-300 transition">Admin</a>
+        <% } %>
       </div>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <main class="pt-20">
+  <!-- Main Content (push below fixed header) -->
+  <main class="pt-24">
     <%- body %>
   </main>
 
   <!-- Back to Top Button -->
   <button
-    id="back-to-top"
-    class="hidden fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:scale-110 transition-transform z-50"
-    aria-label="Back to Top"
+    x-data="{ show: false }"
+    x-init="window.addEventListener('scroll', () => show = window.scrollY > 300)"
+    x-show="show"
+    @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    class="fixed bottom-6 right-6 bg-coral text-white p-3 rounded-full shadow-lg transition-opacity"
+    aria-label="Back to top"
   >
-    ↑
+    <i class="fas fa-arrow-up"></i>
   </button>
 
-  <!-- Scripts -->
+  <!-- Footer (unchanged) -->
+<!-- Tropical Footer (Improved Contrast) -->
+<footer class="bg-gray-900 text-white py-12 mt-20">
+  <div class="container mx-auto px-6 md:px-12">
+    <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+      <!-- Logo & Slogan -->
+      <div class="text-center md:text-left">
+        <h3 class="text-3xl font-heading mb-2 text-coral">Lanka Edge Travels 🌴</h3>
+        <p class="font-body text-gray-300 max-w-sm">
+          Your Trusted Sri Lanka Travel Guide Navigate Sri Lanka Like Never Before!
+
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-xl font-semibold mb-3 text-white">Explore</h4>
+        <ul class="space-y-2 font-body text-gray-300">
+          <li><a href="#home" class="hover:text-coral transition">Home</a></li>
+          <li><a href="#features" class="hover:text-coral transition">Why Us</a></li>
+          <li><a href="#tours" class="hover:text-coral transition">Tours</a></li>
+          <li><a href="/contact" class="hover:text-coral transition">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h4 class="text-xl font-semibold mb-3 text-white">Get in Touch</h4>
+        <p class="font-body text-gray-300">📍 Colombo, Sri Lanka</p>
+        <p class="font-body text-gray-300">📞 +94 77 123 4567</p>
+        <p class="font-body text-gray-300">✉️ info@lankaedgetravels.com</p>
+      </div>
+    </div>
+
+    <!-- Bottom Line -->
+    <div class="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400">
+      &copy; <%= new Date().getFullYear() %> Lanka Edge Travels. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+  <!-- Existing Scripts -->
   <script src="/js/header.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Initialize AOS (Animate On Scroll)
-      AOS.init({ duration: 800, once: true });
-
-      // Hero Slider
-      new Swiper('.swiper', {
-        loop: true,
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
-        autoplay: { delay: 5000 },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
-      });
-
-      // Testimonials Slider
-      new Swiper('.testimonials-swiper', {
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 20,
-        autoplay: { delay: 6000 },
-        pagination: { el: '.testimonials-swiper .swiper-pagination', clickable: true },
-        breakpoints: {
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 }
-        }
-      });
-
-      // Back to Top Button Logic
-      const backToTop = document.getElementById('back-to-top');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          backToTop.classList.remove('hidden');
-        } else {
-          backToTop.classList.add('hidden');
-        }
-      });
-      backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      AOS.init({ once: true, duration: 800 });
     });
   </script>
 </body>

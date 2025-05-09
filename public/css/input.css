@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom button styles */
+/* Custom button & nav-link styles */
 @layer components {
   .btn {
     @apply transition-transform duration-300 font-semibold uppercase px-6 py-3 rounded-full cursor-pointer;
@@ -35,26 +35,8 @@
     @apply bg-green-600;
   }
 
-  /* Nav‐Link Styles */
+  /* ✨ NEW — make nav links larger and keep hover effect ✨ */
   .nav-link {
-    @apply font-bold text-lg text-gray-800 inline-block relative transition duration-300;
-  }
-  .nav-link:hover {
-    @apply text-primary;        /* your custom primary color */
-    transform: scale(1.1);
-  }
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: #10B981;  /* same as your primary color */
-    transition: width 0.3s ease, left 0.3s ease;
-  }
-  .nav-link:hover::after {
-    width: 100%;
-    left: 0;
+    @apply text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors;
   }
 }

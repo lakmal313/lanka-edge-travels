@@ -1,0 +1,31 @@
+<% layout('layouts/main') %>
+
+<section class="py-16 px-6 bg-gray-50">
+  <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow space-y-4">
+    <h1 class="text-2xl font-bold mb-4">Booking for <%= booking.destinationId.name %></h1>
+
+    <p><strong>Name:</strong> <%= booking.name %></p>
+    <p><strong>Email:</strong> <%= booking.email %></p>
+    <p><strong>Phone:</strong> <%= booking.phone %></p>
+
+    <p>
+      <strong>Dates:</strong>
+      <%= booking.dateFrom.toLocaleDateString() %> – 
+      <%= booking.dateTo.toLocaleDateString() %>
+    </p>
+    <p><strong>Travellers:</strong> <%= booking.adults %> adults, <%= booking.children %> children</p>
+    <p><strong>Style:</strong> <%= booking.travelStyle %></p>
+    <p><strong>Budget:</strong> 
+      <%= booking.budget ? '$' + booking.budget : '–' %>
+    </p>
+
+    <div>
+      <strong>Message:</strong>
+      <p class="mt-2 whitespace-pre-wrap"><%= booking.message %></p>
+    </div>
+
+    <a href="/admin?tab=dest" class="mt-4 inline-block text-indigo-600 hover:underline">
+      ← Back to Admin
+    </a>
+  </div>
+</section>
