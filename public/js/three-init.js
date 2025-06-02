@@ -17,7 +17,7 @@
   
     function animate() {
       requestAnimationFrame(animate);
-      globe.rotation.y += 0.0015;
+      globe.rotation.y += 0.0006; // Slower for elegance
       renderer.render(scene, camera);
     }
     animate();

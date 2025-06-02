@@ -15,12 +15,8 @@ const ItinerarySchema = new mongoose.Schema({
   details: {
     type: String,
     required: true
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 0
   }
+  // price removed — no longer required per-day
 });
 
 // Main Destination schema

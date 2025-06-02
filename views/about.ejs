@@ -41,26 +41,22 @@
 
 <!-- Meet the Team -->
 <section class="py-16 bg-gray-50">
-  <div class="max-w-7xl mx-auto text-center mb-10 px-6">
-    <h2 class="text-3xl font-bold text-gray-800">Meet the Team</h2>
-    <p class="mt-2 text-gray-600">Local guides who turn your journey into memories.</p>
+  <div class="container mx-auto px-6 text-center mb-10">
+    <h2 class="text-3xl font-bold">Meet the Team</h2>
+    <p class="text-gray-600">Local guides who turn your journey into memories.</p>
   </div>
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-    <!-- Example Profile Card -->
-    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
-      <img src="/images/team/alice.jpg" alt="Alice" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
-      <h3 class="font-semibold text-xl">Alice Perera</h3>
-      <p class="text-gray-600 text-sm">Founder & Lead Guide</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
-      <img src="/images/team/bimal.jpg" alt="Bimal" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
-      <h3 class="font-semibold text-xl">Bimal Silva</h3>
-      <p class="text-gray-600 text-sm">Sri Lanka Specialist</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
-      <img src="/images/team/chitra.jpg" alt="Chitra" class="mx-auto h-32 w-32 rounded-full object-cover mb-4"/>
-      <h3 class="font-semibold text-xl">Chitra Fernando</h3>
-      <p class="text-gray-600 text-sm">Customer Relations</p>
-    </div>
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <% team.forEach(member => { %>
+      <div class="bg-white p-6 rounded-lg shadow text-center">
+        <% if (member.imgPath) { %>
+          <img src="<%= member.imgPath %>" alt="<%= member.name %>" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"/>
+        <% } %>
+        <h3 class="font-semibold text-lg"><%= member.name %></h3>
+        <p class="text-gray-500 mb-2"><%= member.title %></p>
+        <% if (member.bio) { %>
+          <p class="text-gray-600 text-sm"><%= member.bio %></p>
+        <% } %>
+      </div>
+    <% }) %>
   </div>
 </section>

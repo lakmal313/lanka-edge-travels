@@ -1,20 +1,31 @@
 <!-- views/login.ejs -->
 <section class="py-16 px-6 bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="max-w-sm w-full bg-white p-8 rounded-lg shadow">
-      <h1 class="text-2xl font-bold mb-6 text-center">Admin Login</h1>
-      <% if (error) { %>
-        <p class="text-red-600 text-sm mb-4"><%= error %></p>
-      <% } %>
-      <form action="/login" method="POST" class="space-y-4">
-        <input name="username" type="text" placeholder="Username" required
-               class="w-full p-3 border rounded"/>
-        <input name="password" type="password" placeholder="Password" required
-               class="w-full p-3 border rounded"/>
-        <button type="submit"
-                class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
-          Log In
-        </button>
-      </form>
-    </div>
-  </section>
-  
+  <div class="max-w-sm w-full bg-white p-8 rounded-lg shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center">Admin Login</h1>
+    <% if (error) { %>
+      <p class="text-red-600 text-sm mb-4"><%= error %></p>
+    <% } %>
+    <form action="/login" method="POST" class="space-y-4">
+      <input
+        name="username"
+        type="text"
+        placeholder="Username"
+        required
+        class="w-full p-3 border rounded"
+      />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        required
+        class="w-full p-3 border rounded"
+      />
+      <button
+        type="submit"
+        class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
+      >
+        Log In
+      </button>
+    </form>
+  </div>
+</section>

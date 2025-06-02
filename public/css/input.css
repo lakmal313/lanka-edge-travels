@@ -5,38 +5,52 @@
 
 /* Custom button & nav-link styles */
 @layer components {
+
+  /* Base Button */
   .btn {
-    @apply transition-transform duration-300 font-semibold uppercase px-6 py-3 rounded-full cursor-pointer;
-  }
-  .btn-primary {
-    @apply bg-gradient-to-r from-primary to-secondary text-white shadow-lg;
-  }
-  .btn-outline {
-    @apply border-2 border-indigo-600 text-indigo-600 bg-transparent;
-  }
-  .btn-danger {
-    @apply bg-red-500 text-white;
-  }
-  .btn-success {
-    @apply bg-green-500 text-white;
+    @apply transition-transform duration-300 font-semibold uppercase px-6 py-3 rounded-full cursor-pointer shadow-md;
   }
 
-  /* Hover states */
+  /* Enhanced Primary Button */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-secondary text-white shadow-xl hover:shadow-2xl transition-shadow duration-300;
+  }
+
+  /* Enhanced Outline Button */
+  .btn-outline {
+    @apply border-2 border-neutral text-neutral hover:bg-neutral hover:text-white transition-all;
+  }
+
+  /* Danger Button */
+  .btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600;
+  }
+
+  /* Success Button */
+  .btn-success {
+    @apply bg-green-500 text-white hover:bg-green-600;
+  }
+
+  /* Button Hover State Enhancement */
   .btn:hover {
     @apply scale-105;
   }
-  .btn-outline:hover {
-    @apply bg-indigo-100;
-  }
-  .btn-danger:hover {
-    @apply bg-red-600;
-  }
-  .btn-success:hover {
-    @apply bg-green-600;
+
+  /* Improved Navigation Link Styles */
+  .nav-link {
+    @apply text-lg font-medium text-neutral hover:text-primary transition-colors duration-200;
   }
 
-  /* ✨ NEW — make nav links larger and keep hover effect ✨ */
-  .nav-link {
-    @apply text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors;
+  /* Typography & Readability Improvements */
+  h1, h2, h3 {
+    @apply font-bold text-neutral;
+  }
+  body {
+    @apply font-sans text-base text-gray-800 leading-relaxed;
+  }
+
+  /* General Spacing and Alignment */
+  .section {
+    @apply py-8 px-4 md:py-12 md:px-8 lg:py-16 lg:px-20;
   }
 }

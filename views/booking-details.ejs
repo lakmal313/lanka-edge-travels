@@ -1,31 +1,107 @@
-<% layout('layouts/main') %>
+<% /* views/booking-details.ejs */ %>
 
-<section class="py-16 px-6 bg-gray-50">
-  <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow space-y-4">
-    <h1 class="text-2xl font-bold mb-4">Booking for <%= booking.destinationId.name %></h1>
+<main class="pt-20">
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow space-y-6">
+      <h1 class="text-2xl font-bold">Booking Details</h1>
 
-    <p><strong>Name:</strong> <%= booking.name %></p>
-    <p><strong>Email:</strong> <%= booking.email %></p>
-    <p><strong>Phone:</strong> <%= booking.phone %></p>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+        <div>
+          <dt class="font-medium">Tour</dt>
+          <dd><%= booking.destinationId?.name || '—' %></dd>
+        </div>
 
-    <p>
-      <strong>Dates:</strong>
-      <%= booking.dateFrom.toLocaleDateString() %> – 
-      <%= booking.dateTo.toLocaleDateString() %>
-    </p>
-    <p><strong>Travellers:</strong> <%= booking.adults %> adults, <%= booking.children %> children</p>
-    <p><strong>Style:</strong> <%= booking.travelStyle %></p>
-    <p><strong>Budget:</strong> 
-      <%= booking.budget ? '$' + booking.budget : '–' %>
-    </p>
+        <div>
+          <dt class="font-medium">Name</dt>
+          <dd><%= booking.name %></dd>
+        </div>
 
-    <div>
-      <strong>Message:</strong>
-      <p class="mt-2 whitespace-pre-wrap"><%= booking.message %></p>
+        <div>
+          <dt class="font-medium">Email</dt>
+          <dd><%= booking.email %></dd>
+        </div>
+
+        <div>
+          <dt class="font-medium">Phone</dt>
+          <dd><%= booking.phone || '—' %></dd>
+        </div>
+
+        <div>
+          <dt class="font-medium">Dates</dt>
+          <dd>
+            <%= booking.dateFrom
+                ? booking.dateFrom.toLocaleDateString()
+                : '—' %>
+            –
+            <%= booking.dateTo
+                ? booking.dateTo.toLocaleDateString()
+                : '—' %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="font-medium">Travellers</dt>
+          <dd><%= booking.adults %> adults, <%= booking.children %> children</dd>
+        </div>
+
+        <div>
+          <dt class="font-medium">Travel Style</dt>
+          <dd><%= booking.travelStyle %></dd>
+        </div>
+
+        <div>
+          <dt class="font-medium">Budget</dt>
+          <dd>
+            <%= booking.budget
+                ? '$' + booking.budget
+                : '—' %>
+          </dd>
+        </div>
+
+        <div class="sm:col-span-2">
+          <dt class="font-medium">Interests</dt>
+          <dd>
+            <%= booking.interests && booking.interests.length
+                ? booking.interests.join(', ')
+                : '—' %>
+          </dd>
+        </div>
+
+        <div class="sm:col-span-2">
+          <dt class="font-medium">Message</dt>
+          <dd><pre class="whitespace-pre-wrap text-gray-700"><%= booking.message %></pre></dd>
+        </div>
+      </dl>
+
+      <div class="pt-6 border-t flex items-center space-x-3">
+        <a href="/admin?tab=book"
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+          ← Back to Bookings
+        </a>
+
+        <% if (booking.status !== 'confirmed') { %>
+          <form action="/admin/booking/<%= booking._id %>/confirm"
+                method="POST"
+                class="inline"
+                onsubmit="return confirm('Confirm this booking?')">
+            <button type="submit"
+                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+              Confirm
+            </button>
+          </form>
+        <% } %>
+
+        <form action="/admin/booking/<%= booking._id %>"
+              method="POST"
+              onsubmit="return confirm('Delete this booking?')"
+              class="inline">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit"
+                  class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+            Delete
+          </button>
+        </form>
+      </div>
     </div>
-
-    <a href="/admin?tab=dest" class="mt-4 inline-block text-indigo-600 hover:underline">
-      ← Back to Admin
-    </a>
-  </div>
-</section>
+  </section>
+</main>

@@ -1,178 +1,192 @@
-<%/* views/contact.ejs */%>
+<% /* views/contact.ejs */ %>
+<% layout('layouts/main') %>
 
-<%/* Hero Header */%>
-<section
-  id="contact-hero"
-  class="relative py-20 bg-cover bg-center"
-  style="background-image: url('<%= hero %>');"
-  data-aos="fade-up"
-  data-aos-duration="800"
->
-  <div class="absolute inset-0 bg-black opacity-60"></div>
-  <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
-      Get Your Free Personalized Tour Itinerary
-    </h1>
-    <p class="mt-4 text-lg sm:text-xl lg:text-2xl">
-      Share a few details and we’ll craft your perfect Sri Lanka adventure—customized just for you.
-    </p>
-  </div>
-</section>
-
-<%/* Form Section */%>
-<section id="contact-form" class="py-16 bg-gray-100">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl bg-white p-8 sm:p-10 rounded-lg shadow-lg">
-    <form action="/contact" method="POST" class="space-y-8">
+<section class="py-16 px-6 bg-gray-50">
+  <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow space-y-6"
+       x-data="{
+         budgetOption: '<%= data.budgetOption||'' %>',
+         selectedInterests: <%- JSON.stringify(data.interests||[]) %>,
+         selectedMustSee:   <%- JSON.stringify(data.mustSee||[])   %>
+       }"
+  >
+    <h1 class="text-2xl font-bold mb-4">
       <% if (selectedDest) { %>
-        <input type="hidden" name="destination" value="<%= selectedDest._id %>" />
-        <p class="text-gray-700 text-center">
-          Inquiring about: <strong><%= selectedDest.name %></strong>
-        </p>
+        Request Quote: <%= selectedDest.name %>
+      <% } else { %>
+        Contact Us
       <% } %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <!-- Full Name -->
+    </h1>
+
+    <% if (errors && errors.length) { %>
+      <div class="bg-red-100 text-red-800 p-3 rounded">
+        <ul class="list-disc pl-5">
+          <% errors.forEach(e => { %>
+            <li><%= e.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <form action="/contact" method="POST" class="space-y-4">
+      <% if (selectedDest) { %>
+        <input type="hidden" name="destination" value="<%= selectedDest._id %>">
+      <% } %>
+
+      <!-- Basic Info -->
+      <div>
+        <label class="block font-medium">Full Name</label>
+        <input type="text" name="name" required
+               value="<%= data.name||'' %>"
+               class="mt-1 w-full border px-3 py-2 rounded"/>
+      </div>
+      <div>
+        <label class="block font-medium">Email</label>
+        <input type="email" name="email" required
+               value="<%= data.email||'' %>"
+               class="mt-1 w-full border px-3 py-2 rounded"/>
+      </div>
+      <div>
+        <label class="block font-medium">Phone</label>
+        <input type="tel" name="phone"
+               value="<%= data.phone||'' %>"
+               class="mt-1 w-full border px-3 py-2 rounded"/>
+      </div>
+      <% if (!selectedDest) { %>
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            placeholder="Your full name"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+          <label class="block font-medium">Country</label>
+          <input type="text" name="country"
+                 value="<%= data.country||'' %>"
+                 class="mt-1 w-full border px-3 py-2 rounded"/>
         </div>
-        <!-- Email Address -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            placeholder="you@example.com"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <!-- Phone / WhatsApp -->
-        <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700">Phone / WhatsApp</label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            placeholder="+94 7XX XXX XXX"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <!-- Country of Residence -->
-        <div>
-          <label for="country" class="block text-sm font-medium text-gray-700">Country of Residence</label>
-          <input
-            id="country"
-            name="country"
-            type="text"
-            placeholder="e.g. United States"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <!-- Travel Dates -->
-        <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-gray-700">Travel Dates</label>
-          <div class="mt-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              name="dateFrom"
-              type="date"
-              required
-              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            <input
-              name="dateTo"
-              type="date"
-              required
-              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+      <% } %>
+
+      <% if (selectedDest) { %>
+        <!-- Dates -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium">Start Date</label>
+            <input type="date" name="dateFrom" required
+                   value="<%= data.dateFrom||'' %>"
+                   class="mt-1 w-full border px-3 py-2 rounded"/>
+          </div>
+          <div>
+            <label class="block font-medium">End Date</label>
+            <input type="date" name="dateTo" required
+                   value="<%= data.dateTo||'' %>"
+                   class="mt-1 w-full border px-3 py-2 rounded"/>
           </div>
         </div>
-        <!-- Adults -->
-        <div>
-          <label for="adults" class="block text-sm font-medium text-gray-700">Adults</label>
-          <input
-            id="adults"
-            name="adults"
-            type="number"
-            min="1"
-            required
-            placeholder="e.g. 2"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+
+        <!-- Travellers -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium">Adults</label>
+            <input type="number" name="adults" min="1" required
+                   value="<%= data.adults||1 %>"
+                   class="mt-1 w-full border px-3 py-2 rounded"/>
+          </div>
+          <div>
+            <label class="block font-medium">Children</label>
+            <input type="number" name="children" min="0" required
+                   value="<%= data.children||0 %>"
+                   class="mt-1 w-full border px-3 py-2 rounded"/>
+          </div>
         </div>
-        <!-- Children -->
+
+        <!-- Travel Style -->
         <div>
-          <label for="children" class="block text-sm font-medium text-gray-700">Children</label>
-          <input
-            id="children"
-            name="children"
-            type="number"
-            min="0"
-            placeholder="e.g. 1"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <!-- Preferred Travel Style -->
-        <div class="sm:col-span-2">
-          <label for="travelStyle" class="block text-sm font-medium text-gray-700">Preferred Travel Style</label>
-          <select
-            id="travelStyle"
-            name="travelStyle"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <option value="" disabled selected>Select style</option>
-            <option>Budget</option>
-            <option>Mid-Range</option>
-            <option>Luxury</option>
+          <label class="block font-medium">Travel Style</label>
+          <select name="travelStyle" required
+                  class="mt-1 w-full border px-3 py-2 rounded">
+            <option value="">Choose one</option>
+            <% ['Adventure','Relaxation','Cultural'].forEach(opt=>{ %>
+              <option value="<%=opt%>"
+                <%= data.travelStyle===opt?'selected':'' %>>
+                <%=opt%>
+              </option>
+            <% }) %>
           </select>
         </div>
-        <!-- Budget per Person -->
-        <div class="sm:col-span-2">
-          <label for="budget" class="block text-sm font-medium text-gray-700">Budget per Person (USD)</label>
-          <input
-            id="budget"
-            name="budget"
-            type="number"
-            min="0"
-            placeholder="e.g. 1500"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+
+        <!-- Budget -->
+        <div>
+          <label class="block font-medium">Budget</label>
+          <select name="budgetOption" x-model="budgetOption" required
+                  class="mt-1 w-full border px-3 py-2 rounded">
+            <option value="">Select Budget</option>
+            <option value="under-500"  <%= data.budgetOption==='under-500'  ?'selected':'' %>>Under $500</option>
+            <option value="500-1000"   <%= data.budgetOption==='500-1000'   ?'selected':'' %>>$500–$1,000</option>
+            <option value="1000-2000"  <%= data.budgetOption==='1000-2000'  ?'selected':'' %>>$1,000–$2,000</option>
+            <option value="2000-plus"  <%= data.budgetOption==='2000-plus'  ?'selected':'' %>>Over $2,000</option>
+            <option value="custom"     <%= data.budgetOption==='custom'     ?'selected':'' %>>Custom</option>
+          </select>
+          <input x-show="budgetOption==='custom'"
+                 type="number" step="0.01" min="0"
+                 name="budgetCustom"
+                 placeholder="Enter your budget"
+                 value="<%= data.budgetCustom||'' %>"
+                 class="mt-2 w-full border px-3 py-2 rounded"/>
         </div>
-        <!-- Interests & Must-See Places -->
-        <div class="sm:col-span-2">
-          <label for="interests" class="block text-sm font-medium text-gray-700">Interests &amp; Must-See Places</label>
-          <input
-            id="interests"
-            name="interests"
-            type="text"
-            placeholder="Culture, Wildlife, Beaches…"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+
+        <!-- Interests -->
+        <div>
+          <label class="block font-medium">Interests</label>
+          <select name="interests" multiple x-model="selectedInterests"
+                  class="mt-1 w-full border px-3 py-2 rounded h-24">
+            <% ['Adventure','Culture','Wildlife','Beaches','Relaxation'].forEach(i=>{ %>
+              <option value="<%=i%>"
+                <%= (data.interests||[]).includes(i)? 'selected':'' %>>
+                <%=i%>
+              </option>
+            <% }) %>
+            <option value="Other"
+              <%= (data.interests||[]).includes('Other')? 'selected':'' %>>
+              Other
+            </option>
+          </select>
+          <input x-show="selectedInterests.includes('Other')"
+                 type="text" name="customInterest"
+                 placeholder="Your other interests"
+                 value="<%= data.customInterest||'' %>"
+                 class="mt-2 w-full border px-3 py-2 rounded"/>
         </div>
-        <!-- Additional Requests / Questions -->
-        <div class="sm:col-span-2">
-          <label for="message" class="block text-sm font-medium text-gray-700">Additional Requests / Questions</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="4"
-            placeholder="Anything else we should know?"
-            class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          ></textarea>
+
+        <!-- Must-See Places -->
+        <div>
+          <label class="block font-medium">Must-See Places</label>
+          <select name="mustSee" multiple x-model="selectedMustSee"
+                  class="mt-1 w-full border px-3 py-2 rounded h-24">
+            <% ['Sigiriya','Ella','Kandy','Galle','Nuwara Eliya'].forEach(p=>{ %>
+              <option value="<%=p%>"
+                <%= (data.mustSee||[]).includes(p)? 'selected':'' %>>
+                <%=p%>
+              </option>
+            <% }) %>
+            <option value="Other"
+              <%= (data.mustSee||[]).includes('Other')? 'selected':'' %>>
+              Other
+            </option>
+          </select>
+          <input x-show="selectedMustSee.includes('Other')"
+                 type="text" name="customMustSee"
+                 placeholder="Your must-see places"
+                 value="<%= data.customMustSee||'' %>"
+                 class="mt-2 w-full border px-3 py-2 rounded"/>
         </div>
+      <% } %>
+
+      <!-- Message -->
+      <div>
+        <label class="block font-medium">
+          <%= selectedDest ? 'Additional Details / Message' : 'Message' %>
+        </label>
+        <textarea name="message" rows="4" required
+                  class="mt-1 w-full border px-3 py-2 rounded whitespace-pre-wrap"><%= data.message||'' %></textarea>
       </div>
-      <button
-        type="submit"
-        class="w-full py-4 px-6 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition focus:outline-none focus:ring-2 focus:ring-green-500"
-      >
-        Get My Itinerary
+
+      <button type="submit"
+              class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+        <%= selectedDest ? 'Send Quote Request' : 'Send Message' %>
       </button>
     </form>
   </div>

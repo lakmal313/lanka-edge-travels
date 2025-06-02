@@ -23,67 +23,22 @@
               <p class="text-gray-600 font-medium">Email</p>
               <p class="mt-1 text-gray-900"><%= contact.email %></p>
             </div>
-            <div>
-              <p class="text-gray-600 font-medium">Phone</p>
-              <p class="mt-1 text-gray-900"><%= contact.phone || '—' %></p>
-            </div>
-            <div>
-              <p class="text-gray-600 font-medium">Country</p>
-              <p class="mt-1 text-gray-900"><%= contact.country || '—' %></p>
-            </div>
           </div>
         </div>
 
-        <!-- Trip Details -->
+        <!-- Preferred Tour -->
         <div>
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">Trip Details</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-            <div>
-              <p class="text-gray-600 font-medium">Travel Dates</p>
-              <p class="mt-1 text-gray-900">
-                <%= contact.dateFrom 
-                      ? new Date(contact.dateFrom).toLocaleDateString() 
-                      : '—' %>
-                –
-                <%= contact.dateTo 
-                      ? new Date(contact.dateTo).toLocaleDateString() 
-                      : '—' %>
-              </p>
-            </div>
-            <div>
-              <p class="text-gray-600 font-medium">Number of Adults</p>
-              <p class="mt-1 text-gray-900"><%= contact.adults ?? '—' %></p>
-            </div>
-            <div>
-              <p class="text-gray-600 font-medium">Number of Children</p>
-              <p class="mt-1 text-gray-900"><%= contact.children ?? '—' %></p>
-            </div>
-            <div>
-              <p class="text-gray-600 font-medium">Travel Style</p>
-              <p class="mt-1 text-gray-900"><%= contact.travelStyle || '—' %></p>
-            </div>
-            <div>
-              <p class="text-gray-600 font-medium">Budget</p>
-              <p class="mt-1 text-gray-900">
-                <%= contact.budget ? '$' + contact.budget : '—' %>
-              </p>
-            </div>
-            <div class="sm:col-span-2">
-              <p class="text-gray-600 font-medium">Interests</p>
-              <p class="mt-1 text-gray-900"><%= contact.interests || '—' %></p>
-            </div>
-            <div class="sm:col-span-2">
-              <p class="text-gray-600 font-medium">Preferred Destination</p>
-              <p class="mt-1 text-gray-900"><%= contact.destination?.name || '—' %></p>
-            </div>
-          </div>
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Preferred Tour</h2>
+          <p class="mt-1 text-gray-900">
+            <%= contact.dest?.name || '—' %>
+          </p>
         </div>
 
         <!-- Message -->
         <div>
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">Additional Message</h2>
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Message</h2>
           <div class="p-4 bg-gray-100 rounded text-gray-900 whitespace-pre-wrap">
-            <%= contact.message || '—' %>
+            <%= contact.message %>
           </div>
         </div>
 
